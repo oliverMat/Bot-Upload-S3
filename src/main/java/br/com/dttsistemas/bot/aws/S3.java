@@ -33,8 +33,8 @@ public class S3 implements Serializable {
 
 	private AmazonS3 amazonS3;
 
-	
-	public void uploadImg(String nomeCompleto, String caminhoLocal) throws Exception {// Envia a Imagem com o tamanho e resolucao original
+	// Envia a Imagem com o tamanho e resolucao original
+	public void uploadImg(String nomeCompleto, String caminhoLocal) throws Exception {
 		
 		
 		File caminhoRaiz =  new File(caminhoLocal + nomeCompleto);
@@ -44,7 +44,8 @@ public class S3 implements Serializable {
 		amazonS3.putObject(bucketImgOriginal, nomeCompleto, caminhoRaiz);
 	}
 
-	public void deleteImg(String nomeImg) {//Deleta a imagem no bucket
+	//Deleta a imagem no bucket
+	public void deleteImg(String nomeImg) {
 		try {
 			autheticationS3();
 			
@@ -55,7 +56,8 @@ public class S3 implements Serializable {
 		}
 	}
 	
-	public URL buscarImgOri(String nomeImg) {//Busca a imagem pelo nome e retorna uma URL pre-signed por vez 
+	//Busca a imagem pelo nome e retorna uma URL pre-signed por vez 
+	public URL buscarImgOri(String nomeImg) {
 		try {
 			autheticationS3();
 	
@@ -70,7 +72,8 @@ public class S3 implements Serializable {
 		}
 	}
 	
-	public Date tempoExpiracao() {// Set the presigned URL to expire after one hour.
+	// Set the presigned URL to expire after one hour.
+	public Date tempoExpiracao() {
 		Date expiration = new Date();
 		long expTimeMillis = Instant.now().toEpochMilli();
 		expTimeMillis += 1000 * 60 * 60;
@@ -79,7 +82,8 @@ public class S3 implements Serializable {
 		return expiration;
 	}
 	
-	public void autheticationS3() {// Realiza a autenticaçao com a amazon antes de enviar as iamgens
+	// Realiza a autenticaçao com a amazon antes de enviar as iamgens
+	public void autheticationS3() {
 		System.out.println("Autenticando S3...");
 		amazonS3 = AmazonS3ClientBuilder.standard().withRegion(region)
 				.withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(key, secret))).build();

@@ -16,7 +16,6 @@ import br.com.dttsistemas.bot.util.CriarRelatorio;
 
 public class StartApplication {
 
-	private static Integer cursor = 0;
 	private static Integer total = 0;
 	private static Integer idAtual = 0;
 
@@ -33,12 +32,12 @@ public class StartApplication {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction et = em.getTransaction();
 		
-		//altere o select para a tabela de sua preferencias
+		//pega o total de itens no BD
 		total = Integer.parseInt(em.createQuery("select count(t) from TratamentoImagem t where awsSend = 0", Long.class).getSingleResult().toString());
 
-		while (cursor < total) {
+		while (idAtual < total) {
 				
-				//altere o select para a tabela de sua preferencias
+				//perquisa um resultado por vez de forma crescente
 				TratamentoImagem item = em.createQuery("from TratamentoImagem where awsSend = 0 order by idTratamento_imagem",TratamentoImagem.class)
 						.setFirstResult(idAtual)
 						.setMaxResults(1).getSingleResult();
@@ -74,7 +73,8 @@ public class StartApplication {
 		System.out.println("Fim");
 
 	}
-
+	
+	//Animacao no console
 	public static void console(String img) {
 
 		try {
@@ -89,7 +89,8 @@ public class StartApplication {
 			e.printStackTrace();
 		}
 	}
-
+	
+	//pesquisa arquivo por arquivo na pasta local
 	public static boolean findFilesInFolder(String nomeArq) {
 
 		File file = new File(getcaminhoLocal() + nomeArq);
@@ -105,7 +106,8 @@ public class StartApplication {
 		}
 
 	}
-
+	
+	//pega todos os arquivos da pasta local a onde o bot ira rodar
 	public static String getcaminhoLocal() {
 
 		String caminho = null;
